@@ -5,15 +5,20 @@ if (!isset($_SESSION['login'])) {
   exit;
 }
 
-if (isset($_POST['submit'])) {
-  $from = $_POST['from'];
-  $to = $_POST['to'];
-
-}
 
 $rekapan = $pdo->prepare("SELECT * FROM rekapan INNER JOIN barang USING(kode_barang) INNER JOIN petugas USING(kode_petugas)");
 $rekapan->execute();
 $rekapanAll = $rekapan->fetchAll();
+
+if (isset($_POST['submit'])) {
+  $from = $_POST['from'];
+  $to = $_POST['to'];
+
+  $rekapan = $pdo->prepare("SELECT * FROM rekapan INNER JOIN barang USING(kode_barang) INNER JOIN petugas USING(kode_petugas) WHERE tahun BETWEEN($from, $to)");
+  $rekapan->execute();
+  $rekapanAll = $rekapan->fetchAll();
+
+}
 
 ?>
 <!DOCTYPE html>
@@ -24,7 +29,7 @@ $rekapanAll = $rekapan->fetchAll();
   <title>Index</title>
 </head>
 <body>
-  <form action="">
+  <form action="" method="post">
     <div>
       <label for="from">Dari tahun</label>
       <input type="text" name="from">
