@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) {
   $from = $_POST['from'];
   $to = $_POST['to'];
 
-  $rekapan = $pdo->prepare("SELECT * FROM rekapan INNER JOIN barang USING(kode_barang) INNER JOIN petugas USING(kode_petugas) WHERE tahun BETWEEN($from, $to)");
+  $rekapan = $pdo->prepare("SELECT * FROM rekapan INNER JOIN barang USING(kode_barang) INNER JOIN petugas USING(kode_petugas) WHERE tahun >= $from AND tahun <= $to");
   $rekapan->execute();
   $rekapanAll = $rekapan->fetchAll();
 
